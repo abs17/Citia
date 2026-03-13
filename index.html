@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CitIA Locale — L'intelligence artificielle au service de tous</title>
+  <meta name="description" content="CitIA Locale : ateliers gratuits d'intelligence artificielle pour tous les habitants. Découvrez, apprenez et créez avec l'IA dans votre ville." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* =============================================
+       DESIGN TOKENS — BIBLE GRAPHIQUE CITIA LOCALE
+    ============================================= */
+    :root {
+      --blue:      #24468C;
+      --blue-dark: #1a3266;
+      --blue-light:#EBF0F8;
+      --orange:    #EA7A61;
+      --orange-light: #FDF0EC;
+      --teal:      #51B6A4;
+      --teal-light:#E8F6F3;
+      --yellow:    #F5C842;
+      --purple:    #7B6FAA;
+      --gray-dark: #1E2530;
+      --gray:      #4A5568;
+      --gray-light:#F7F9FC;
+      --white:     #FFFFFF;
+      --font-title: 'Montserrat', sans-serif;
+      --font-body:  'Inter', sans-serif;
+      --radius: 16px;
+      --radius-sm: 8px;
+      --shadow: 0 4px 24px rgba(36,70,140,0.10);
+      --shadow-md: 0 8px 40px rgba(36,70,140,0.16);
+      --transition: 0.28s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    /* =============================================
+       RESET & BASE
+    ============================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      color: var(--gray-dark);
+      background: var(--white);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+    /* =============================================
+       TYPOGRAPHY
+    ============================================= */
+    h1, h2, h3, h4 {
+      font-family: var(--font-title);
+      line-height: 1.2;
+      color: var(--blue);
+    }
+    h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; }
+    h2 { font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 800; }
+    h3 { font-size: clamp(1.2rem, 2.5vw, 1.6rem); font-weight: 700; }
+    p { font-size: 1rem; color: var(--gray); max-width: 68ch; }
+
+    /* =============================================
+       LAYOUT HELPERS
+    ============================================= */
+    .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+    .section { padding: 80px 0; }
+    .section-sm { padding: 48px 0; }
+    .text-center { text-align: center; }
+    .text-center p { margin: 0 auto; }
+    .tag {
+      display: inline-block;
+      background: var(--blue-light);
+      color: var(--blue);
+      font-family: var(--font-title);
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 40px;
+      margin-bottom: 16px;
+    }
+    .tag.orange { background: var(--orange-light); color: var(--orange); }
+    .tag.teal   { background: var(--teal-light); color: var(--teal); }
+
+    /* =============================================
+       NAVIGATION
+    ============================================= */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(36,70,140,0.08);
+      transition: box-shadow var(--transition);
+    }
+    .nav.scrolled { box-shadow: var(--shadow); }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 68px;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+    }
+    .nav-logo-icon {
+      width: 40px; height: 40px;
+      background: var(--blue);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .nav-logo-icon::before {
+      content: "";
+      position: absolute;
+      width: 18px; height: 18px;
+      background: var(--orange);
+      border-radius: 50%;
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+    }
+    .nav-logo-icon::after {
+      content: "";
+      position: absolute;
+      width: 8px; height: 8px;
+      background: var(--teal);
+      border-radius: 50%;
+      top: 8px; right: 8px;
+    }
+    .nav-logo-text {
+      font-family: var(--font-title);
+      font-weight: 900;
+      font-size: 1.25rem;
+      color: var(--blue);
+    }
+    .nav-logo-text span { color: var(--orange); }
+    .nav-links {
+      display: flex; align-items: center; gap: 36px; list-style: none;
+    }
+    .nav-links a {
+      font-family: var(--font-title);
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--gray);
+      transition: color var(--transition);
+      position: relative;
+    }
+    .nav-links a::after {
+      content: "";
+      position: absolute; bottom: -4px; left: 0; right: 0; height: 2px;
+      background: var(--orange);
+      transform: scaleX(0);
+      transition: transform var(--transition);
+      border-radius: 2px;
+    }
+    .nav-links a:hover { color: var(--blue); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .btn-nav {
+      background: var(--blue);
+      color: var(--white) !important;
+      padding: 9px 22px;
+      border-radius: 40px;
+      font-family: var(--font-title);
+      font-weight: 700;
+      font-size: 0.88rem;
+      transition: background var(--transition), transform var(--transition);
+    }
+    .btn-nav:hover { background: var(--blue-dark); transform: translateY(-1px); }
+    .btn-nav::after { display: none !important; }
+    .nav-burger {
+      display: none; flex-direction: column; gap: 5px; padding: 4px;
+    }
+    .nav-burger span {
+      display: block; width: 24px; height: 2px;
+      background: var(--blue); border-radius: 2px;
+      transition: transform var(--transition), opacity var(--transition);
+    }
+
+    /* =============================================
+       HERO
+    ============================================= */
+    .hero {
+      padding-top: 120px;
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--blue) 0%, #1a3266 60%, #0f1e3d 100%);
+      position: relative;
+      overflow: hidden;
+      display: flex; align-items: center;
+    }
+    .hero-bg-shapes {
+      position: absolute; inset: 0; pointer-events: none;
+    }
+    .shape {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.12;
+    }
+    .shape-1 {
+      width: 600px; height: 600px;
+      background: var(--teal);
+      top: -200px; right: -200px;
+      animation: float1 8s ease-in-out infinite;
+    }
+    .shape-2 {
+      width: 300px; height: 300px;
+      background: var(--orange);
+      bottom: -80px; left: -80px;
+      animation: float2 10s ease-in-out infinite;
+    }
+    .shape-3 {
+      width: 150px; height: 150px;
+      background: var(--yellow);
+      top: 30%; left: 40%;
+      animation: float1 12s ease-in-out infinite reverse;
+    }
+    @keyframes float1 {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-30px) rotate(5deg); }
+    }
+    @keyframes float2 {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(20px) rotate(-4deg); }
+    }
+    /* Grid pattern */
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      position: relative; z-index: 2;
+      width: 100%;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(81,182,164,0.2);
+      border: 1px solid rgba(81,182,164,0.4);
+      color: var(--teal);
+      padding: 6px 16px;
+      border-radius: 40px;
+      font-family: var(--font-title);
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .hero-badge::before { content: "●"; font-size: 0.6rem; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+    .hero h1 {
+      color: var(--white);
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      margin-bottom: 24px;
+      line-height: 1.1;
+    }
+    .hero h1 span.accent { color: var(--orange); }
+    .hero h1 span.accent2 { color: var(--teal); }
+    .hero p {
+      color: rgba(255,255,255,0.80);
+      font-size: 1.15rem;
+      max-width: 54ch;
+      margin-bottom: 40px;
+    }
+    .hero-cta {
+      display: flex; gap: 16px; flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: var(--orange);
+      color: var(--white);
+      padding: 14px 32px;
+      border-radius: 50px;
+      font-family: var(--font-title);
+      font-weight: 700;
+      font-size: 1rem;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+      box-shadow: 0 4px 20px rgba(234,122,97,0.4);
+    }
+    .btn-primary:hover { background: #d96b52; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(234,122,97,0.5); }
+    .btn-secondary {
+      background: rgba(255,255,255,0.12);
+      color: var(--white);
+      padding: 14px 32px;
+      border-radius: 50px;
+      font-family: var(--font-title);
+      font-weight: 700;
+      font-size: 1rem;
+      border: 1.5px solid rgba(255,255,255,0.3);
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: background var(--transition), transform var(--transition);
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.2); transform: translateY(-2px); }
+    .hero-stats {
+      display: flex; gap: 32px; margin-top: 56px; flex-wrap: wrap;
+    }
+    .hero-stat {
+      border-left: 3px solid var(--teal);
+      padding-left: 16px;
+    }
+    .hero-stat .num {
+      font-family: var(--font-title);
+      font-weight: 900;
+      font-size: 2rem;
+      color: var(--white);
+    }
+    .hero-stat .label {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.6);
+    }
+
+    /* Hero visual — IA card illustration */
+    .hero-visual {
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ai-card {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      padding: 32px;
+      width: 380px;
+      box-shadow: var(--shadow-md);
+      animation: float1 6s ease-in-out infinite;
+    }
+    .ai-card-header {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 24px;
+    }
+    .ai-avatar {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, var(--orange), var(--yellow));
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+    }
+    .ai-card-header-text .name {
+      font-family: var(--font-title);
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--white);
+    }
+    .ai-card-header-text .role {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.55);
+    }
+    .ai-bubbles { display: flex; flex-direction: column; gap: 12px; }
+    .bubble {
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      line-height: 1.45;
+      max-width: 90%;
+    }
+    .bubble.user {
+      background: rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.85);
+      align-self: flex-end;
+      border-radius: 12px 12px 2px 12px;
+    }
+    .bubble.ai {
+      background: var(--teal);
+      color: var(--white);
+      align-self: flex-start;
+      border-radius: 12px 12px 12px 2px;
+    }
+    .typing {
+      display: flex; gap: 4px; align-items: center; padding: 10px 14px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 12px;
+      width: fit-content;
+    }
+    .typing span {
+      width: 7px; height: 7px; background: rgba(255,255,255,0.5);
+      border-radius: 50%;
+      animation: typing 1.4s ease-in-out infinite;
+    }
+    .typing span:nth-child(2) { animation-delay: 0.2s; }
+    .typing span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typing { 0%,80%,100%{transform:scale(1);opacity:0.5;} 40%{transform:scale(1.3);opacity:1;} }
+    .ai-card-footer {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .ai-card-footer span {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.4);
+    }
+    .ai-pill {
+      background: rgba(81,182,164,0.25);
+      color: var(--teal);
+      font-family: var(--font-title);
+      font-weight: 700;
+      font-size: 0.72rem;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    /* =============================================
+       MISSION STRIP
+    ============================================= */
+    .mission-strip {
+      background: var(--blue-light);
+      padding: 40px 0;
+    }
+    .mission-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+    .mission-item {
+      display: flex; gap: 16px; align-items: flex-start;
+    }
+    .mission-icon {
+      width: 52px; height: 52px; flex-shrink: 0;
+      background: var(--white);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+    .mission-item h4 {
+      font-family: var(--font-title);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--blue);
+      margin-bottom: 4px;
+    }
+    .mission-item p {
+      font-size: 0.88rem;
+      color: var(--gray);
+      max-width: 100%;
+    }
+
+    /* =============================================
+       SECTION ATELIERS
+    ============================================= */
+    .ateliers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 28px;
+      margin-top: 48px;
+    }
+    .atelier-card {
+      background: var(--white);
+      border: 1.5px solid rgba(36,70,140,0.08);
+      border-radius: var(--radius);
+      padding: 32px;
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .atelier-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      border-radius: var(--radius) var(--radius) 0 0;
+    }
+    .atelier-card.blue::before { background: var(--blue); }
+    .atelier-card.orange::before { background: var(--orange); }
+    .atelier-card.teal::before { background: var(--teal); }
+    .atelier-card.yellow::before { background: var(--yellow); }
+    .atelier-card.purple::before { background: var(--purple); }
+    .atelier-card.dark::before { background: var(--gray-dark); }
+    .atelier-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-md);
+      border-color: rgba(36,70,140,0.15);
+    }
+    .atelier-num {
+      font-family: var(--font-title);
+      font-weight: 900;
+      font-size: 3rem;
+      color: var(--blue-light);
+      position: absolute;
+      top: 16px; right: 20px;
+      line-height: 1;
+    }
+    .atelier-emoji { font-size: 2rem; margin-bottom: 16px; }
+    .atelier-card h3 {
+      font-size: 1.15rem;
+      margin-bottom: 8px;
+      color: var(--blue);
+    }
+    .atelier-card p {
+      font-size: 0.9rem;
+      color: var(--gray);
+      margin-bottom: 16px;
+      max-width: 100%;
+    }
+    .atelier-meta {
+      display: flex; gap: 8px; flex-wrap: wrap;
+    }
+    .meta-badge {
+      font-size: 0.76rem;
+      font-family: var(--font-title);
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: var(--blue-light);
+      color: var(--blue);
+    }
+    .meta-badge.orange { background: var(--orange-light); color: var(--orange); }
+    .meta-badge.teal { background: var(--teal-light); color: var(--teal); }
+
+    /* =============================================
+       SECTION PROTOTYPES
+    ============================================= */
+    .protos-section { background: var(--gray-light); }
+    .protos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 48px;
+    }
+    .proto-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 36px 28px;
+      box-shadow: var(--shadow);
+      transition: transform var(--transition), box-shadow var(--transition);
+      text-align: center;
+    }
+    .proto-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .proto-icon {
+      width: 72px; height: 72px;
+      border-radius: 20px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+      margin: 0 auto 20px;
+    }
+    .proto-icon.blue { background: var(--blue-light); }
+    .proto-icon.teal { background: var(--teal-light); }
+    .proto-icon.orange { background: var(--orange-light); }
+    .proto-card h3 { font-size: 1.2rem; margin-bottom: 10px; }
+    .proto-card p { font-size: 0.9rem; color: var(--gray); max-width: 100%; }
+    .proto-status {
+      display: inline-block;
+      margin-top: 16px;
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-family: var(--font-title);
+      font-weight: 700;
+      font-size: 0.76rem;
+    }
+    .proto-status.en-cours { background: var(--teal-light); color: var(--teal); }
+    .proto-status.concept { background: var(--blue-light); color: var(--blue); }
+
+    /* =============================================
+       TESTIMONIALS / WHY
+    ============================================= */
+    .why-section { background: var(--blue); overflow: hidden; position: relative; }
+    .why-section::before {
+      content: "";
+      position: absolute;
+      width: 600px; height: 600px;
+      background: rgba(81,182,164,0.1);
+      border-radius: 50%;
+      top: -200px; right: -200px;
+    }
+    .why-inner { position: relative; z-index: 1; }
+    .why-section h2 { color: var(--white); }
+    .why-section .tag { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.9); }
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+      margin-top: 48px;
+    }
+    .why-card {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      transition: background var(--transition);
+    }
+    .why-card:hover { background: rgba(255,255,255,0.14); }
+    .why-card .icon { font-size: 2.2rem; margin-bottom: 16px; }
+    .why-card h4 {
+      font-family: var(--font-title);
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .why-card p { font-size: 0.9rem; color: rgba(255,255,255,0.7); max-width: 100%; }
+
+    /* =============================================
+       JOIN SECTION
+    ============================================= */
+    .join-section { background: var(--white); }
+    .join-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .join-form { display: flex; flex-direction: column; gap: 16px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field label {
+      font-family: var(--font-title);
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--blue);
+    }
+    .field input, .field select, .field textarea {
+      padding: 12px 16px;
+      border: 1.5px solid rgba(36,70,140,0.15);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--gray-dark);
+      background: var(--white);
+      transition: border-color var(--transition), box-shadow var(--transition);
+      outline: none;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(36,70,140,0.1);
+    }
+    .field textarea { resize: vertical; min-height: 100px; }
+    .btn-form {
+      background: var(--blue);
+      color: var(--white);
+      padding: 14px 32px;
+      border-radius: 50px;
+      font-family: var(--font-title);
+      font-weight: 700;
+      font-size: 1rem;
+      transition: background var(--transition), transform var(--transition);
+      align-self: flex-start;
+    }
+    .btn-form:hover { background: var(--blue-dark); transform: translateY(-2px); }
+    .join-info { display: flex; flex-direction: column; gap: 24px; }
+    .info-item {
+      display: flex; gap: 16px; align-items: flex-start;
+      padding: 20px;
+      background: var(--gray-light);
+      border-radius: var(--radius-sm);
+    }
+    .info-item .icon { font-size: 1.6rem; flex-shrink: 0; margin-top: 2px; }
+    .info-item h4 { font-family: var(--font-title); font-weight: 700; font-size: 1rem; color: var(--blue); margin-bottom: 4px; }
+    .info-item p { font-size: 0.88rem; color: var(--gray); max-width: 100%; }
+    .success-msg {
+      display: none;
+      background: var(--teal-light);
+      border: 1.5px solid var(--teal);
+      color: var(--teal);
+      padding: 16px 20px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-title);
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-top: 8px;
+    }
+
+    /* =============================================
+       FOOTER
+    ============================================= */
+    .footer {
+      background: var(--gray-dark);
+      color: rgba(255,255,255,0.7);
+      padding: 60px 0 32px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+    .footer-brand { }
+    .footer-logo {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
+    }
+    .footer-logo-icon {
+      width: 36px; height: 36px;
+      background: var(--orange);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .footer-logo-text {
+      font-family: var(--font-title);
+      font-weight: 900;
+      font-size: 1.2rem;
+      color: var(--white);
+    }
+    .footer-brand p {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.55);
+      max-width: 30ch;
+      margin-bottom: 20px;
+    }
+    .social-links { display: flex; gap: 12px; }
+    .social-link {
+      width: 38px; height: 38px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      color: rgba(255,255,255,0.7);
+      transition: background var(--transition), color var(--transition);
+    }
+    .social-link:hover { background: var(--orange); color: var(--white); }
+    .footer-col h5 {
+      font-family: var(--font-title);
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--white);
+      margin-bottom: 16px;
+      letter-spacing: 0.04em;
+    }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .footer-links a {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.55);
+      transition: color var(--transition);
+    }
+    .footer-links a:hover { color: var(--teal); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer-bottom p { font-size: 0.82rem; color: rgba(255,255,255,0.4); max-width: 100%; }
+    .footer-bottom span { color: var(--orange); }
+
+    /* =============================================
+       MOBILE NAV
+    ============================================= */
+    .nav-mobile {
+      display: none;
+      position: fixed;
+      top: 68px; left: 0; right: 0;
+      background: var(--white);
+      border-bottom: 1px solid rgba(36,70,140,0.08);
+      padding: 20px 24px;
+      z-index: 99;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: var(--shadow-md);
+    }
+    .nav-mobile.open { display: flex; }
+    .nav-mobile a {
+      font-family: var(--font-title);
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--gray);
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(36,70,140,0.05);
+    }
+
+    /* =============================================
+       SCROLL ANIMATIONS
+    ============================================= */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* =============================================
+       RESPONSIVE
+    ============================================= */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .nav-burger { display: flex; }
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      .mission-grid { grid-template-columns: 1fr; }
+      .join-grid { grid-template-columns: 1fr; gap: 40px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .section { padding: 56px 0; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .hero-stats { gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- =============================================
+     NAVIGATION
+============================================= -->
+<nav class="nav" id="navbar">
+  <div class="container nav-inner">
+    <a href="#accueil" class="nav-logo">
+      <div class="nav-logo-icon"></div>
+      <span class="nav-logo-text">CitIA <span>Locale</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#accueil">Accueil</a></li>
+      <li><a href="#ateliers">Nos ateliers</a></li>
+      <li><a href="#prototypes">Nos prototypes</a></li>
+      <li><a href="#rejoindre" class="btn-nav">Nous rejoindre</a></li>
+    </ul>
+    <button class="nav-burger" id="burger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="nav-mobile" id="mobileMenu">
+  <a href="#accueil">🏠 Accueil</a>
+  <a href="#ateliers">📚 Nos ateliers</a>
+  <a href="#prototypes">🛠 Nos prototypes</a>
+  <a href="#pourquoi">💡 Notre mission</a>
+  <a href="#rejoindre">✋ Nous rejoindre</a>
+</div>
+
+<!-- =============================================
+     HERO
+============================================= -->
+<section class="hero" id="accueil">
+  <div class="hero-bg-shapes">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+  </div>
+  <div class="hero-grid"></div>
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-badge">✦ Association loi 1901 — Gratuit &amp; Inclusif</div>
+        <h1>L'<span class="accent">IA</span> au service<br/>de <span class="accent2">tous les citoyens</span></h1>
+        <p>CitIA Locale organise des ateliers gratuits d'intelligence artificielle pour que chaque habitant puisse comprendre, utiliser et même créer des outils IA utiles à notre territoire.</p>
+        <div class="hero-cta">
+          <a href="#ateliers" class="btn-primary">
+            ▶ Découvrir les ateliers
+          </a>
+          <a href="#rejoindre" class="btn-secondary">
+            ✋ Nous rejoindre
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="num">12</div>
+            <div class="label">Ateliers / an</div>
+          </div>
+          <div class="hero-stat">
+            <div class="num">80+</div>
+            <div class="label">Participants</div>
+          </div>
+          <div class="hero-stat">
+            <div class="num">100%</div>
+            <div class="label">Gratuit</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="ai-card">
+          <div class="ai-card-header">
+            <div class="ai-avatar">🤖</div>
+            <div class="ai-card-header-text">
+              <div class="name">Assistant CitIA</div>
+              <div class="role">Atelier IA — Débutants</div>
+            </div>
+          </div>
+          <div class="ai-bubbles">
+            <div class="bubble user">"C'est quoi exactement l'IA ?"</div>
+            <div class="bubble ai">C'est un programme capable d'apprendre à partir d'exemples. Laissez-moi vous montrer avec un cas concret !</div>
+            <div class="bubble user">"Et je peux l'utiliser moi aussi ?"</div>
+            <div class="typing"><span></span><span></span><span></span></div>
+          </div>
+          <div class="ai-card-footer">
+            <span>Atelier ouvert à tous · 2h · Gratuit</span>
+            <div class="ai-pill">En ligne</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     MISSION STRIP
+============================================= -->
+<section class="mission-strip">
+  <div class="container">
+    <div class="mission-grid">
+      <div class="mission-item reveal">
+        <div class="mission-icon">🎓</div>
+        <div>
+          <h4>Apprendre ensemble</h4>
+          <p>Des ateliers conçus pour tous les niveaux, animés par des bénévoles passionnés et pédagogues.</p>
+        </div>
+      </div>
+      <div class="mission-item reveal">
+        <div class="mission-icon">🛠</div>
+        <div>
+          <h4>Créer du concret</h4>
+          <p>Nous construisons des prototypes d'IA utiles à la communauté locale, avec et pour les habitants.</p>
+        </div>
+      </div>
+      <div class="mission-item reveal">
+        <div class="mission-icon">🤝</div>
+        <div>
+          <h4>Connecter les citoyens</h4>
+          <p>CitIA Locale crée du lien : entre générations, entre quartiers, entre passionnés et débutants.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     ATELIERS
+============================================= -->
+<section class="section" id="ateliers">
+  <div class="container">
+    <div class="text-center reveal">
+      <div class="tag">📚 Programme pédagogique</div>
+      <h2>Nos ateliers, à votre rythme</h2>
+      <p>12 ateliers de 2h, gratuits, conçus pour deux publics : adultes &amp; seniors, et jeunes 14–25 ans. Aucun prérequis technique.</p>
+    </div>
+    <div class="ateliers-grid">
+
+      <div class="atelier-card blue reveal">
+        <div class="atelier-num">01</div>
+        <div class="atelier-emoji">🧭</div>
+        <h3>L'IA, c'est quoi concrètement ?</h3>
+        <p>Démystifier l'intelligence artificielle. Ce qu'elle sait faire, ce qu'elle ne sait pas faire, et pourquoi ça nous concerne tous.</p>
+        <div class="atelier-meta">
+          <span class="meta-badge">Débutant</span>
+          <span class="meta-badge teal">Adultes & Seniors</span>
+          <span class="meta-badge orange">2h</span>
+        </div>
+      </div>
+
+      <div class="atelier-card orange reveal">
+        <div class="atelier-num">02</div>
+        <div class="atelier-emoji">💬</div>
+        <h3>Parler à une IA : le prompt</h3>
+        <p>Apprendre à formuler ses demandes pour obtenir de vrais résultats. Pratique immédiate avec ChatGPT, Mistral et d'autres.</p>
+        <div class="atelier-meta">
+          <span class="meta-badge">Débutant</span>
+          <span class="meta-badge teal">Tous publics</span>
+          <span class="meta-badge orange">2h</span>
+        </div>
+      </div>
+
+      <div class="atelier-card teal reveal">
+        <div class="atelier-num">03</div>
+        <div class="atelier-emoji">📝</div>
+        <h3>L'IA pour écrire et créer</h3>
+        <p>Rédiger un CV, une lettre, un email professionnel ou un texte créatif avec l'aide de l'IA. Atelier pratique à 100%.</p>
+        <div class="atelier-meta">
+          <span class="meta-badge">Intermédiaire</span>
+          <span class="meta-badge teal">Adultes</span>
+          <span class="meta-badge orange">2h</span>
+        </div>
+      </div>
+
+      <div class="atelier-card yellow reveal">
+        <div class="atelier-num">04</div>
+        <div class="atelier-emoji">🔒</div>
+        <h3>Vie privée & IA : se protéger</h3>
+        <p>Comprendre ce que l'IA collecte, comment protéger ses données et naviguer intelligemment. Un atelier essentiel pour tous.</p>
+        <div class="atelier-meta">
+          <span class="meta-badge">Débutant</span>
+          <span class="meta-badge teal">Seniors +</span>
+          <span class="meta-badge orange">2h</span>
+        </div>
+      </div>
+
+      <div class="atelier-card purple reveal">
+        <div class="atelier-num">05</div>
+        <div class="atelier-emoji">🎨</div>
+        <h3>Créer des images avec l'IA</h3>
+        <p>Générer des visuels, des logos, des illustrations avec des outils gratuits. Discussion sur les questions éthiques soulevées.</p>
+        <div class="atelier-meta">
+          <span class="meta-badge">Débutant</span>
+          <span class="meta-badge teal">Jeunes & Adultes</span>
+          <span class="meta-badge orange">2h</span>
+        </div>
+      </div>
+
+      <div class="atelier-card dark reveal">
+        <div class="atelier-num">06</div>
+        <div class="atelier-emoji">🌿</div>
+        <h3>L'IA et l'environnement</h3>
+        <p>Quel est l'impact carbone de l'IA ? Comment utiliser ces technologies de façon responsable ? Une réflexion collective.</p>
+        <div class="atelier-meta">
+          <span class="meta-badge">Tous niveaux</span>
+          <span class="meta-badge teal">Tous publics</span>
+          <span class="meta-badge orange">2h</span>
+        </div>
+      </div>
+
+      <div class="atelier-card blue reveal">
+        <div class="atelier-num">07</div>
+        <div class="atelier-emoji">🚀</div>
+        <h3>Idée → Prototype en 2h</h3>
+        <p>Introduction au prototypage IA pour les jeunes. Une idée utile pour le quartier ? On commence à la construire ensemble.</p>
+        <div class="atelier-meta">
+          <span class="meta-badge">Avancé</span>
+          <span class="meta-badge teal">Jeunes 14–25</span>
+          <span class="meta-badge orange">2h</span>
+        </div>
+      </div>
+
+      <div class="atelier-card orange reveal">
+        <div class="atelier-num">08</div>
+        <div class="atelier-emoji">💼</div>
+        <h3>L'IA et l'emploi</h3>
+        <p>Quels métiers sont transformés par l'IA ? Comment l'utiliser pour sa recherche d'emploi, sa reconversion, son CV ?</p>
+        <div class="atelier-meta">
+          <span class="meta-badge">Intermédiaire</span>
+          <span class="meta-badge teal">Adultes actifs</span>
+          <span class="meta-badge orange">2h</span>
+        </div>
+      </div>
+
+      <div class="atelier-card teal reveal">
+        <div class="atelier-num">09</div>
+        <div class="atelier-emoji">🏥</div>
+        <h3>L'IA dans la santé et le social</h3>
+        <p>Diagnostic médical, aide aux aidants, services sociaux augmentés : l'IA dans les métiers du soin et du lien social.</p>
+        <div class="atelier-meta">
+          <span class="meta-badge">Débutant</span>
+          <span class="meta-badge teal">Professionnels</span>
+          <span class="meta-badge orange">2h</span>
+        </div>
+      </div>
+
+      <div class="atelier-card yellow reveal">
+        <div class="atelier-num">10</div>
+        <div class="atelier-emoji">🧪</div>
+        <h3>Atelier No-Code IA</h3>
+        <p>Créer un chatbot, une application simple, un outil de classement sans écrire une seule ligne de code. C'est possible !</p>
+        <div class="atelier-meta">
+          <span class="meta-badge">Avancé</span>
+          <span class="meta-badge teal">Jeunes & Adultes</span>
+          <span class="meta-badge orange">2h</span>
+        </div>
+      </div>
+
+      <div class="atelier-card purple reveal">
+        <div class="atelier-num">11</div>
+        <div class="atelier-emoji">🎭</div>
+        <h3>Biais, éthique & désinformation</h3>
+        <p>Reconnaître les deepfakes, comprendre les biais algorithmiques, décrypter les fake news générées par l'IA. Atelier citoyen.</p>
+        <div class="atelier-meta">
+          <span class="meta-badge">Tous niveaux</span>
+          <span class="meta-badge teal">Tous publics</span>
+          <span class="meta-badge orange">2h</span>
+        </div>
+      </div>
+
+      <div class="atelier-card dark reveal">
+        <div class="atelier-num">12</div>
+        <div class="atelier-emoji">🏆</div>
+        <h3>Showcase : nos créations</h3>
+        <p>Présentation publique des prototypes créés par les participants. Fierté collective, démonstrations et échanges ouverts à tous.</p>
+        <div class="atelier-meta">
+          <span class="meta-badge">Clôture</span>
+          <span class="meta-badge teal">Tout public</span>
+          <span class="meta-badge orange">3h · Événement</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     PROTOTYPES
+============================================= -->
+<section class="section protos-section" id="prototypes">
+  <div class="container">
+    <div class="text-center reveal">
+      <div class="tag teal">🛠 Innovation citoyenne</div>
+      <h2>Nos prototypes d'IA citoyens</h2>
+      <p>Avec les participants les plus avancés, nous créons des outils IA répondant à de vrais besoins locaux. Tout est open source.</p>
+    </div>
+    <div class="protos-grid">
+      <div class="proto-card reveal">
+        <div class="proto-icon blue">💼</div>
+        <h3>AssistEmploi Local</h3>
+        <p>Un chatbot IA qui aide les demandeurs d'emploi locaux à améliorer leur CV, préparer leurs entretiens et trouver les formations disponibles dans la région.</p>
+        <div class="proto-status en-cours">🔄 En construction</div>
+      </div>
+      <div class="proto-card reveal">
+        <div class="proto-icon teal">🏛</div>
+        <h3>DémarIA</h3>
+        <p>Un assistant conversationnel qui guide les habitants dans leurs démarches administratives locales : aides sociales, permis, inscriptions scolaires...</p>
+        <div class="proto-status concept">💡 Concept validé</div>
+      </div>
+      <div class="proto-card reveal">
+        <div class="proto-icon orange">📅</div>
+        <h3>AgendIA Locale</h3>
+        <p>Un outil IA qui agrège et présente intelligemment tous les événements locaux (culturels, sportifs, associatifs) selon les préférences de chacun.</p>
+        <div class="proto-status concept">💡 À explorer</div>
+      </div>
+    </div>
+    <div class="text-center reveal" style="margin-top:48px;">
+      <p style="font-size:1rem;color:var(--gray);"><strong style="color:var(--blue);">Votre idée ici ?</strong> Les prototypes naissent des besoins des participants. Rejoignez-nous et proposez votre idée dès le premier atelier.</p>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     WHY / VALEURS
+============================================= -->
+<section class="section why-section" id="pourquoi">
+  <div class="container why-inner">
+    <div class="text-center reveal">
+      <div class="tag">💡 Notre raison d'être</div>
+      <h2>Pourquoi CitIA Locale ?</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-card reveal">
+        <div class="icon">🌍</div>
+        <h4>Pour tous, sans exception</h4>
+        <p>Seniors, demandeurs d'emploi, jeunes, professionnels : l'IA ne doit pas être réservée aux experts. Nous rendons ces savoirs accessibles à chacun.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="icon">🆓</div>
+        <h4>100% gratuit</h4>
+        <p>Tous nos ateliers sont gratuits ou à tarif libre. Notre modèle repose sur le bénévolat et le soutien des collectivités locales.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="icon">🔓</div>
+        <h4>Open source &amp; libre</h4>
+        <p>Tous nos supports pédagogiques sont publiés sous licence Creative Commons. Copiez, adaptez, partagez librement.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="icon">🌱</div>
+        <h4>IA responsable</h4>
+        <p>Nous abordons toujours les enjeux éthiques, environnementaux et sociaux de l'IA. Comprendre, c'est aussi savoir questionner.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     REJOINDRE
+============================================= -->
+<section class="section join-section" id="rejoindre">
+  <div class="container">
+    <div class="join-grid">
+      <div>
+        <div class="tag orange">✋ Passer à l'action</div>
+        <h2>Rejoignez CitIA Locale</h2>
+        <p style="margin-bottom:32px;">Participant(e), bénévole, partenaire ou simplement curieux(se) : il y a une place pour vous dans notre communauté. Laissez-nous vos coordonnées.</p>
+        <form class="join-form" id="joinForm" onsubmit="handleSubmit(event)">
+          <div class="form-row">
+            <div class="field">
+              <label for="prenom">Prénom *</label>
+              <input type="text" id="prenom" required placeholder="Votre prénom" />
+            </div>
+            <div class="field">
+              <label for="nom">Nom *</label>
+              <input type="text" id="nom" required placeholder="Votre nom" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="email">Email *</label>
+            <input type="email" id="email" required placeholder="votre@email.fr" />
+          </div>
+          <div class="field">
+            <label for="role">Je souhaite...</label>
+            <select id="role">
+              <option value="">Choisissez une option</option>
+              <option value="participant">Participer aux ateliers</option>
+              <option value="benevole">Devenir bénévole / animateur</option>
+              <option value="partenaire">Proposer un partenariat</option>
+              <option value="membre">Adhérer à l'association</option>
+              <option value="autre">Autre / juste être informé</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="message">Message (optionnel)</label>
+            <textarea id="message" placeholder="Une idée, une question, un projet... Tout est bienvenu !"></textarea>
+          </div>
+          <button type="submit" class="btn-form">Envoyer ma demande →</button>
+          <div class="success-msg" id="successMsg">
+            ✅ Merci ! Nous vous répondrons dans les 48h. Bienvenue dans la communauté CitIA Locale !
+          </div>
+        </form>
+      </div>
+      <div class="join-info">
+        <div class="info-item reveal">
+          <div class="icon">📍</div>
+          <div>
+            <h4>Où se passe les ateliers ?</h4>
+            <p>Dans les lieux de vie de notre ville : médiathèque, maison de quartier, espace France Services. Gratuit, accessible, proche de chez vous.</p>
+          </div>
+        </div>
+        <div class="info-item reveal">
+          <div class="icon">📅</div>
+          <div>
+            <h4>Quand ?</h4>
+            <p>Un samedi matin par mois (adultes/seniors) et un jeudi soir par mois (jeunes). Consultez notre agenda ou inscrivez-vous pour être informé.</p>
+          </div>
+        </div>
+        <div class="info-item reveal">
+          <div class="icon">💻</div>
+          <div>
+            <h4>Faut-il un ordinateur ?</h4>
+            <p>Non ! Du matériel est mis à disposition. Il suffit d'apporter votre curiosité et votre envie d'apprendre.</p>
+          </div>
+        </div>
+        <div class="info-item reveal">
+          <div class="icon">📧</div>
+          <div>
+            <h4>Nous contacter</h4>
+            <p><strong>contact@citia-locale.fr</strong><br/>Nous répondons sous 48h.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     FOOTER
+============================================= -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <div class="footer-logo-icon">⬡</div>
+          <span class="footer-logo-text">CitIA Locale</span>
+        </div>
+        <p>L'intelligence artificielle au service de tous. Association loi 1901 — bénévole, gratuite, ouverte à tous.</p>
+        <div class="social-links">
+          <a href="#" class="social-link" title="Facebook">f</a>
+          <a href="#" class="social-link" title="Instagram">📸</a>
+          <a href="#" class="social-link" title="LinkedIn">in</a>
+          <a href="#" class="social-link" title="GitHub">⌨</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>L'association</h5>
+        <ul class="footer-links">
+          <li><a href="#pourquoi">Notre mission</a></li>
+          <li><a href="#">Qui sommes-nous ?</a></li>
+          <li><a href="#">Nous rejoindre</a></li>
+          <li><a href="#">Statuts</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Ateliers</h5>
+        <ul class="footer-links">
+          <li><a href="#ateliers">Tous les ateliers</a></li>
+          <li><a href="#">Format Adultes/Seniors</a></li>
+          <li><a href="#">Format Jeunes 14–25</a></li>
+          <li><a href="#">Ressources libres</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Ressources</h5>
+        <ul class="footer-links">
+          <li><a href="#prototypes">Nos prototypes</a></li>
+          <li><a href="#">Supports pédagogiques</a></li>
+          <li><a href="#">Blog &amp; actualités</a></li>
+          <li><a href="#rejoindre">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2024 CitIA Locale — Association loi 1901 — <span>contact@citia-locale.fr</span></p>
+      <p>Fait avec <span>♥</span> par des bénévoles passionnés · Creative Commons CC-BY-SA</p>
+    </div>
+  </div>
+</footer>
+
+<!-- =============================================
+     JAVASCRIPT
+============================================= -->
+<script>
+  // Navbar scroll effect
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('navbar');
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Mobile menu
+  const burger = document.getElementById('burger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  burger.addEventListener('click', () => {
+    mobileMenu.classList.toggle('open');
+  });
+  document.querySelectorAll('.nav-mobile a').forEach(a => {
+    a.addEventListener('click', () => mobileMenu.classList.remove('open'));
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, (entry.target.dataset.delay || 0));
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  reveals.forEach((el, i) => {
+    el.dataset.delay = (i % 4) * 80;
+    observer.observe(el);
+  });
+
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        const offset = 80;
+        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    });
+  });
+
+  // Form submit
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = document.querySelector('.btn-form');
+    btn.textContent = '⏳ Envoi en cours...';
+    btn.disabled = true;
+    setTimeout(() => {
+      document.getElementById('successMsg').style.display = 'block';
+      document.getElementById('joinForm').reset();
+      btn.textContent = 'Envoyer ma demande →';
+      btn.disabled = false;
+    }, 1200);
+  }
+
+  // Typing animation in hero – cycle messages
+  const messages = [
+    "Absolument ! Voici un exemple simple avec des images de chiens et de chats 🐕🐈",
+    "L'IA reconnaît des formes comme vous reconnaissez un visage familier.",
+    "On commence par un atelier pratique ? Tout le monde peut y arriver !"
+  ];
+  let msgIndex = 0;
+  const typingEl = document.querySelector('.typing');
+  if (typingEl) {
+    setInterval(() => {
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble ai';
+      bubble.textContent = messages[msgIndex % messages.length];
+      bubble.style.opacity = '0';
+      bubble.style.transform = 'translateY(8px)';
+      bubble.style.transition = 'opacity 0.4s, transform 0.4s';
+      typingEl.parentNode.insertBefore(bubble, typingEl);
+      requestAnimationFrame(() => {
+        bubble.style.opacity = '1';
+        bubble.style.transform = 'translateY(0)';
+      });
+      // Keep only last 4 messages
+      const bubbles = typingEl.parentNode.querySelectorAll('.bubble');
+      if (bubbles.length > 5) bubbles[0].remove();
+      msgIndex++;
+    }, 3500);
+  }
+</script>
+
+</body>
+</html>
